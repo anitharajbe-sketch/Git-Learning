@@ -1,9 +1,23 @@
+# Fibonacci Program
 def fibo(n):
     a = 1
-    for i in range(1,n+1):
+    for i in range(1, n + 1):
         a = a * i
     return a
 
-
-n = int(input("Enter the number to find Fibonacci series: "))
-print(fibo(n))
+should_continue = True
+first_time = True
+while should_continue:
+    if first_time:
+        n = int(input("Enter the number to find Fibonacci series: "))
+        print(fibo(n))
+        first_time = False
+    option = str(input("Type 'Y' to continue or 'N' to stop: ")).lower()
+    if option == 'n':
+        should_continue = False
+        print("Thanks, Bye!!!")
+    elif option == 'y':
+        n = int(input("Enter the number to find Fibonacci series: "))
+        print(fibo(n))
+    else:
+        print("Type a valid option")
