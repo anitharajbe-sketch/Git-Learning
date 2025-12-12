@@ -1,6 +1,10 @@
+#Fibonacci Program
 def fibo(n):
-	a = 1
-	for i in range(1,n+1):
-		a *= i
+    a = 1
+    for i in range(1,n+1):
+        a = a * i
+    return a
 
-fibo(n=5)
+
+n = int(input("Enter the number to find Fibonacci series: "))
+print(fibo(n))
