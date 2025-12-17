@@ -1,0 +1,90 @@
+import random
+from tkinter import *
+
+
+window = Tk()
+window.title("Rock Paper Scissor Game")
+window.minsize(width=400,height=400)
+
+
+choices = ['rock','paper','scissor']
+image = {}
+
+user_label = Label(window)
+user_label.pack(side='left',padx=50,pady=20)
+comp_label = Label(window)
+comp_label.pack(side='right',padx=50,pady=20)
+result_label = Label(window)
+result_label.pack(side='top')
+user_score_l = Label(window)
+user_score_l.config(text=" ",font=('Arial',20))
+user_score_l.pack(side='left',padx=30,pady=30)
+comp_score_l = Label(window)
+comp_score_l.config(text=" ",font=('Arial',20))
+comp_score_l.pack(side='right',padx=30,pady=30)
+
+for choice in choices:
+    if choice == 'paper':
+        x,y = 10,10
+    else:
+        x,y = 5,5
+    image[choice] = PhotoImage(file=f"{choice}.png").subsample(x, y)
+
+user_score = 0
+comp_score = 0
+
+def play(user_choice):
+    global user_score,comp_score
+    comp_choice = random.choice(choices)
+    if comp_choice == user_choice:
+        result = "It's draw"
+    elif (user_choice == 'scissor' and comp_choice == 'paper') or \
+            (user_choice == 'rock' and comp_choice == 'scissor') or \
+            (user_choice == 'paper' and comp_choice == 'rock'):
+        result = "You win"
+        user_score += 1
+    else:
+        result = "Computer win"
+        comp_score += 1
+    user_label.config(image=image[user_choice])
+    comp_label.config(image=image[comp_choice])
+    result_label.config(text=result,font=('Arial',25,'bold'))
+    user_score_l.config(text=f"Score: {user_score} points")
+    comp_score_l.config(text=f"Score: {comp_score} points")
+
+def show_results():
+
+    winner_text = Label(window)
+    winner_text.pack(side='top')
+
+    if user_score > comp_score:
+        new_text = "You win"
+    elif comp_score > user_score:
+        new_text = "Computer win"
+    else:
+        new_text = "It's draw"
+
+    winner_text.config(text=new_text,font=("Arial",30,'bold'))
+
+
+def stop_game():
+    for widgets in window.winfo_children():
+        widgets.destroy()
+    show_results()
+
+button_frame = Frame(window)
+button_frame.pack(side='top',pady=10)
+
+clear_button = Button(text='End game')
+clear_button.config(command=stop_game)
+clear_button.pack(side='bottom',padx=10,pady=10)
+
+for choice in choices:
+
+    new_image = image[choice]
+    button = Button(button_frame,image=new_image,command=lambda c=choice:play(c))
+    button.pack(side='left',padx=10)
+
+
+
+window.mainloop()
